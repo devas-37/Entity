@@ -62,7 +62,7 @@ export const MainPage = () => {
                   <TableCell>{record.clientId}</TableCell>
                   <TableCell>{record.relation}</TableCell>
                   <TableCell>{record.position}</TableCell>
-                  <TableCell>{}</TableCell>
+                  <TableCell>{"true"}</TableCell>
                   <TableCell>
                     <ActionBtn
                       id={record.clientId}

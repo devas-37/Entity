@@ -138,9 +138,15 @@ export const CustomAutoComplete: React.FC<IProps> = ({
                           color="primary"
                           onClick={() => {
                             let val = newInput.current?.value || "";
+                            let id = Date.now().toString();
                             onAddNew &&
                               onAddNew({
-                                id: Date.now().toString(),
+                                id,
+                                name: val,
+                              });
+                            onSelect &&
+                              onSelect({
+                                id,
                                 name: val,
                               });
                             setNewValue(val);
