@@ -57,7 +57,7 @@ export const MainPage = () => {
             </TableHead>
             <TableBody>
               {records.map((record, index) => (
-                <TableRow>
+                <TableRow key={index}>
                   <TableCell>{index}</TableCell>
                   <TableCell>{record.clientId}</TableCell>
                   <TableCell>{record.relation}</TableCell>

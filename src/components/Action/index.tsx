@@ -43,8 +43,8 @@ export const ActionBtn: React.FC<IActionProps> = ({ menuElements, id }) => {
           "aria-labelledby": `basic-button${id}`,
         }}
       >
-        {menuElements.map((element) => (
-          <MenuItem onClick={() => element.callback(id || "")}>
+        {menuElements.map((element, index) => (
+          <MenuItem key={index} onClick={() => element.callback(id || "")}>
             {element.label}
           </MenuItem>
         ))}

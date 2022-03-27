@@ -33,7 +33,6 @@ export const CustomAutoComplete: React.FC<IProps> = ({
   const [filterText, setFilterText] = useState<string>("");
   const [newValue, setNewValue] = useState<string>("");
   const newInput = useRef<HTMLInputElement>(null);
-  const generateId = useMemo(() => Math.round(Math.random() * 99000) + "D", []);
   useEffect(() => {
     const ref = (e: MouseEvent) => {
       if (!(e.target as HTMLDivElement).closest(`#${id}`)) {
