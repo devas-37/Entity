@@ -60,13 +60,15 @@ export const MainPage = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setOpen(true)}
-        >
-          Open
-        </Button>
+        <div style={{ textAlign: "right", marginTop: 16 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(true)}
+          >
+            Open
+          </Button>
+        </div>
       </div>
     </div>
   );

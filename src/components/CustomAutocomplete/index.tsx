@@ -61,6 +61,8 @@ export const CustomAutoComplete: React.FC<IProps> = ({
         onChange={(e, val, reason) => {
           if (reason == "clear") {
             setFilterText("");
+            setNewValue("");
+            setIsOpen(true);
           }
         }}
         ListboxComponent={(props) => {
@@ -124,13 +126,16 @@ export const CustomAutoComplete: React.FC<IProps> = ({
                           size="large"
                           variant="contained"
                           color="primary"
-                          onClick={() =>
+                          onClick={() => {
+                            let val = newInput.current?.value || "";
                             onAddNew &&
-                            onAddNew({
-                              id: 197414,
-                              name: newInput.current?.value || "",
-                            })
-                          }
+                              onAddNew({
+                                id: 197414,
+                                name: val,
+                              });
+                            setNewValue(val);
+                            setIsOpen(false);
+                          }}
                         >
                           ADD
                         </Button>

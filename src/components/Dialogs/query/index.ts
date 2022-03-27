@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { API_URI, ICompanyQueryType } from "../../../constans";
+import { useEffect, useState } from "react";
+import { API_URI } from "../../../constans";
 import { IPosition, IRelation, IState } from "../../../Interfaces";
 
 export const usePositionQuery = (filter: string = "") => {

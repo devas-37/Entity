@@ -1,6 +1,4 @@
 import {
-  Autocomplete,
-  Box,
   Button,
   FormControl,
   InputLabel,
@@ -13,15 +11,13 @@ import {
 } from "@mui/material";
 import { CustomAutoComplete } from "../CustomAutocomplete";
 import { useStyles } from "./hooks/useStyles";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useCallback, useEffect, useState } from "react";
 import { IPosition, IRelation } from "../../Interfaces";
-import { API_URI, ICompanyQueryType } from "../../constans";
 import { usePositionQuery, useRelationQuery } from "./query";
-import Popper from "@mui/base/PopperUnstyled";
 interface IProps {
   open: boolean;
   onClose: () => {} | void;
@@ -62,13 +58,14 @@ export const AddDialog: React.FC<IProps> = ({ onClose, open }) => {
                 <MenuItem value={"company"}>Company</MenuItem>
               </Select>
             </FormControl>
-            <FormControl>
-              <InputLabel id="clientId">Client ID</InputLabel>
-              <Select id="clientId" size="medium" label="Client ID">
-                <MenuItem value={"individual"}>Individual</MenuItem>
-                <MenuItem value={"company"}>Company</MenuItem>
-              </Select>
-            </FormControl>
+            <TextField
+              onKeyDown={(e) => {
+                if (!/(\d.?\d*$)|(backspace|enter|tab)/gi.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
+              label="Client ID"
+            ></TextField>
             {entityValue == "individual" ? (
               <>
                 <TextField label="First Name"></TextField>
