@@ -1,5 +1,8 @@
 import {
   Button,
+  IconButton,
+  Menu,
+  MenuItem,
   Table,
   TableBody,
   TableCell,
@@ -11,35 +14,41 @@ import { useStyles } from "./hooks/useStyle";
 import { Paper } from "@mui/material";
 import { AddDialog } from "../../components/Dialogs/AddDialog";
 import { useState } from "react";
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+import { IPayload } from "../../Interfaces";
+import { MoreVert } from "@mui/icons-material";
+import { ActionBtn } from "../../components/Action";
 export const MainPage = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
+
+  const [records, setRecords] = useState<IPayload[]>([]);
   return (
     <div className={classes.wrapper}>
-      <AddDialog open={open} onClose={() => setOpen(false)} />
+      <AddDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        onAdd={(record) => {
+          setRecords((old) => [...old, record]);
+          setOpen(false);
+        }}
+        allIds={records.map((record) => record.clientId)}
+      />
       <div className={classes.content}>
-        <TableContainer component={Paper} style={{ width: 700 }}>
-          <Table sx={{ minWidth: 650 }}>
+        <div style={{ textAlign: "right", margin: "16px 0" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpen(true)}
+          >
+            Add new record
+          </Button>
+        </div>
+        <TableContainer component={Paper} style={{ width: 800 }}>
+          <Table>
             <TableHead aria-label="simple table">
               <TableRow>
                 <TableCell>ID</TableCell>
-                <TableCell>Client</TableCell>
+                <TableCell>Client ID</TableCell>
                 <TableCell>Relation to</TableCell>
                 <TableCell>Position in</TableCell>
                 <TableCell>Client Verified</TableCell>
@@ -47,28 +56,33 @@ export const MainPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {records.map((record, index) => (
                 <TableRow>
-                  <TableCell>{Math.round(Math.random() * 150)}</TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.calories}</TableCell>
-                  <TableCell>{row.fat}</TableCell>
-                  <TableCell>{row.carbs}</TableCell>
-                  <TableCell>{row.protein}</TableCell>
+                  <TableCell>{index}</TableCell>
+                  <TableCell>{record.clientId}</TableCell>
+                  <TableCell>{record.relation}</TableCell>
+                  <TableCell>{record.position}</TableCell>
+                  <TableCell>{}</TableCell>
+                  <TableCell>
+                    <ActionBtn
+                      id={record.clientId}
+                      menuElements={[
+                        {
+                          label: "Delete",
+                          callback: (id) => {
+                            setRecords((old) => [
+                              ...old.filter((old) => old.clientId !== id),
+                            ]);
+                          },
+                        },
+                      ]}
+                    />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <div style={{ textAlign: "right", marginTop: 16 }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpen(true)}
-          >
-            Open
-          </Button>
-        </div>
       </div>
     </div>
   );

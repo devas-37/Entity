@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  AutocompleteChangeReason,
   Button,
   FormControl,
   IconButton,
@@ -10,14 +11,14 @@ import {
 } from "@mui/material";
 import { useStyles } from "./hooks/useStyles";
 import { Add, ArrowBack, Clear } from "@mui/icons-material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 interface IProps {
-  options: { id: number; name: string }[];
+  options: { id: string; name: string }[];
   relation?: boolean;
   id: string;
-  onSelect?: (option: { id: number; name: string }) => void;
-  onAddNew?: (option: { id: number; name: string }) => void;
+  onSelect?: (option: { id: string; name: string }) => void;
+  onAddNew?: (option: { id: string; name: string }) => void;
 }
 export const CustomAutoComplete: React.FC<IProps> = ({
   options,
@@ -32,6 +33,7 @@ export const CustomAutoComplete: React.FC<IProps> = ({
   const [filterText, setFilterText] = useState<string>("");
   const [newValue, setNewValue] = useState<string>("");
   const newInput = useRef<HTMLInputElement>(null);
+  const generateId = useMemo(() => Math.round(Math.random() * 99000) + "D", []);
   useEffect(() => {
     const ref = (e: MouseEvent) => {
       if (!(e.target as HTMLDivElement).closest(`#${id}`)) {
@@ -63,6 +65,14 @@ export const CustomAutoComplete: React.FC<IProps> = ({
             setFilterText("");
             setNewValue("");
             setIsOpen(true);
+          }
+          if (reason == "selectOption") {
+            onSelect &&
+              val &&
+              onSelect({
+                id: Date.now().toString(),
+                name: val,
+              });
           }
         }}
         ListboxComponent={(props) => {
@@ -130,7 +140,7 @@ export const CustomAutoComplete: React.FC<IProps> = ({
                             let val = newInput.current?.value || "";
                             onAddNew &&
                               onAddNew({
-                                id: 197414,
+                                id: Date.now().toString(),
                                 name: val,
                               });
                             setNewValue(val);
@@ -152,7 +162,7 @@ export const CustomAutoComplete: React.FC<IProps> = ({
           <TextField
             {...params}
             label={
-              relation ? "Relation to the company" : `Position in the company`
+              relation ? "Relation to the company" : "Position in the company"
             }
             inputProps={{
               ...params.inputProps,
