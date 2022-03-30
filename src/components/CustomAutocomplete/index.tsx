@@ -12,6 +12,7 @@ import {
 import { useStyles } from "./hooks/useStyles";
 import { Add, ArrowBack, Clear } from "@mui/icons-material";
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Box } from "@mui/system";
 
 interface IProps {
   options: { id: string; name: string }[];
@@ -33,6 +34,7 @@ export const CustomAutoComplete: React.FC<IProps> = ({
   const [filterText, setFilterText] = useState<string>("");
   const [newValue, setNewValue] = useState<string>("");
   const newInput = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const ref = (e: MouseEvent) => {
       if (!(e.target as HTMLDivElement).closest(`#${id}`)) {
@@ -76,9 +78,9 @@ export const CustomAutoComplete: React.FC<IProps> = ({
         }}
         ListboxComponent={(props) => {
           return (
-            <ul {...props} style={{ ...props.style, maxHeight: 36 * 5 }}>
-              {props.children}
-            </ul>
+            <Box>
+              <div {...props} style={{ ...props.style, maxHeight: 36 * 5 }} />
+            </Box>
           );
         }}
         PaperComponent={(props) => {
